@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block extraStyles %}
+    <style>
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
+            url("{{ asset("img/backdrops/" ~ serie.backdrop) }}");
+        }
+    </style>
+{% endblock %}
+{% block title %}
+    Detail
+{% endblock %}
+
+{% block body %}
+    <h2>Detail of serie : {{ serie.name }}</h2>
+
+    <div class="serie-details">
+        <img src="{{ asset("img/posters/series/" ~ serie.poster) }}" alt="{{ serie.name }}">
+        <div class="serie-details-infos">
+            <a class="link_button" href="{{ path('serie_edit', {'id': serie.id}) }}" >Edit</a>
+            {% if is_granted("SERIE_DELETE",serie) %}
+            <a onclick="return confirm('Are you sure to delete this serie ({{ serie.name }})?')"
+               class="link_button" href="{{ path('serie_delete', {'id': serie.id}) }}" >Delete</a>
+            {% endif %}
+            <a class="link_button" href="{{ path('season_new',{'serieId': serie.id}) }}" >Add a season</a>
+            <h3>{{ serie.name }}</h3>
+            <div>User ratings : {{ serie.vote }}</div>
+            <div>Genres : {{ serie.genres }}</div>
+            <div>Status : {{ serie.status }}</div>
+            <div>Aired from : {{ serie.firstAirDate | date('Y-m-d') }} to {{ serie.lastAirDate | date('Y-m-d') }}</div>
+            <div> {{ serie.overview |nl2br }}</div>
+
+
+        </div>
+    </div>
+        <div class="seasons">
+            <h3>Seasons</h3>
+            {% for season in serie.seasons %}
+                <article>
+                    <img src="{{ asset('img/posters/seasons/' ~ season.poster) }}"
+                         alt="{{ serie.name }} | {{ season.number }}">
+                    <h4>
+                        Season #{{ season.number }}
+                    </h4>
+                    <p>Frist Air Date : {{ season.firstAirDate | date('Y-m-d') }}</p>
+                    <p>{{ season.overview }}</p>
+                </article>
+            {% else %}
+                <div>No seasons</div>
+            {% endfor %}
+        </div>
+
+
+
+{% endblock %}
+

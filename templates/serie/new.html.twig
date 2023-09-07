@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Add
+{% endblock %}
+
+{% block body %}
+    <h2>Add a new serie !</h2>
+    {{ form_start(serieForm) }}
+    {{ form_widget(serieForm) }}
+    <button>Create !</button>
+    {{ form_end(serieForm) }}
+
+{% endblock %}
+
